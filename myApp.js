@@ -9,6 +9,14 @@ app.use(helmet.xssFilter()); // Enable XSS Filter middleware
 app.use(helmet.noSniff()); // prevent MIME-sniffing
 app.use(helmet.ieNoOpen()); // prevent IE users from executing downloads in the trusted site context
 
+// enforce HSTS for a specified duration and require all subsequent requests to be made over HTTPS.
+const nietyDaysInSeconds = 90 * 24 * 60 * 60;
+app.use(
+  helmet.hsts({
+    maxAge: nietyDaysInSeconds,
+    force: true
+  })
+);
 
 
 
