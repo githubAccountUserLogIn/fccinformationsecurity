@@ -4,32 +4,30 @@ const app = express();
 const helmet = require('helmet');
 
 app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'})); // Hide "X-Powered-By" header
-app.use(helmet.frameguard({action: 'deny'})); // deny framing
-app.use(helmet.xssFilter()); // Enable XSS Filter middleware
-app.use(helmet.noSniff()); // prevent MIME-sniffing
-app.use(helmet.ieNoOpen()); // prevent IE users from executing downloads in the trusted site context
-
-// enforce HSTS for a specified duration and require all subsequent requests to be made over HTTPS.
-const nietyDaysInSeconds = 90 * 24 * 60 * 60;
-app.use(
-  helmet.hsts({
-    maxAge: nietyDaysInSeconds,
-    force: true
-  })
-);
-app.use(helmet.dnsPrefetchControl());
 app.use(helmet.noCache());
 
-// Allow resources to be loaded from the same origin ('self')
-// Allow scripts to be loaded from the same origin and 'trusted-cdn.com'
-app.use(
-  helmet.contentSecurityPolicy({
+const ninetyDaysInSeconds = 90 * 24 * 60 * 60;
+app.use(helmet({
+  xssFilter: true, // Enable XSS Filter middleware
+  noSniff: true, // prevent MIME-sniffing
+  ieNoOpen: true, // prevent IE users from executing downloads in the trusted site context
+  dnsPrefetchControl: false, // enforce HSTS for a specified duration and require all subsequent requests to be made over HTTPS.
+  frameguard: {
+    action: 'deny'// deny framing
+  },
+  contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"], 
-      scriptSrc: ["'self'", 'trusted-cdn.com'] 
+      defaultSrc: ["'self'"], // Allow resources to be loaded from the same origin ('self')
+      scriptSrc: ["'self'", 'trusted-cdn.com'] // Allow scripts to be loaded from the same origin and 'trusted-cdn.com'
     }
-  })
-);
+  },
+  hsts:{
+    maxAge: ninetyDaysInSeconds,
+    force: true
+  }
+}));
+
+
 
 
 
