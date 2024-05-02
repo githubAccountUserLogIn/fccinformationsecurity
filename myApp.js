@@ -2,16 +2,11 @@ const express = require('express');
 const app = express();
 
 const helmet = require('helmet');
-app.use(
-  helmet({
-    hidePoweredBy: {setTo: 'PHP 4.2.0'}, // Hide "X-Powered-By" header
-    frameguard: {action: 'deny'}, // deny framing
-    xssFilter: true, // Enable XSS Filter middleware
-    noSniff: true // prevent MIME-sniffing
-  })
-);
 
-
+app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'})); // Hide "X-Powered-By" header
+app.use(helmet.frameguard({action: 'deny'})); // deny framing
+app.use(helmet.xssFilter()); // Enable XSS Filter middleware
+app.use(helmet.noSniff()); // prevent MIME-sniffing
 
 
 
