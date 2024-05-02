@@ -7,6 +7,7 @@ app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'})); // Hide "X-Powered-By" head
 app.use(helmet.frameguard({action: 'deny'})); // deny framing
 app.use(helmet.xssFilter()); // Enable XSS Filter middleware
 app.use(helmet.noSniff()); // prevent MIME-sniffing
+app.use(helmet.ieNoOpen()); // prevent IE users from executing downloads in the trusted site context
 
 
 
