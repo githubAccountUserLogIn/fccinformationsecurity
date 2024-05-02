@@ -1,9 +1,7 @@
 const express = require('express');
-const helmet = require('helmet');
 const app = express();
 
-const PORT = process.env.PORT || 3030;
-
+const helmet = require('helmet');
 app.use(helmet.hidePoweredBy({setTo: 'PHP 4.2.0'}));
 
 
