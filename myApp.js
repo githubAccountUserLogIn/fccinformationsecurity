@@ -20,6 +20,16 @@ app.use(
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.noCache());
 
+// Allow resources to be loaded from the same origin ('self')
+// Allow scripts to be loaded from the same origin and 'trusted-cdn.com'
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], 
+      scriptSrc: ["'self'", 'trusted-cdn.com'] 
+    }
+  })
+);
 
 
 
